@@ -3,6 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timer_bloc/bloc/timer_bloc.dart';
 import 'package:timer_bloc/data/ticker.dart';
 
+import 'package:timer_bloc/timer/timer_actions.dart';
+import 'package:timer_bloc/timer/timer_background.dart';
+
+
 
 
 class TimerPage extends StatelessWidget {
@@ -25,10 +29,9 @@ class TimerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Flutter Timer')),
       body: Stack(
         children: [
-          const Background(),
+          const TimerBackground(),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,7 +40,7 @@ class TimerView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 100.0),
                 child: Center(child: TimerText()),
               ),
-              Actions()
+              TimerActions()
             ],
           )
         ],
