@@ -8,8 +8,6 @@ import 'package:mockito/annotations.dart';
 
 import 'repository_test.mocks.dart';
 
-import 'dart:convert';
-
 // Generate a MockClient using the Mockito package.
 // Create new instances of this class in each test.
 @GenerateMocks([http.Client])
