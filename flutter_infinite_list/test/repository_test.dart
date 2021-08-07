@@ -1,40 +1,94 @@
 import 'package:flutter_infinite_list/posts/models/post.dart';
 import 'package:flutter_infinite_list/posts/repository/post_repository.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
-
 import 'package:mockito/mockito.dart';
+import 'package:mockito/annotations.dart';
 
-class MockClient extends Mock implements http.Client {}
+import 'repository_test.mocks.dart';
 
+import 'dart:convert';
+
+// Generate a MockClient using the Mockito package.
+// Create new instances of this class in each test.
+@GenerateMocks([http.Client])
 void main() {
   group('mocking some stuff', () {
-    var stringResponse = """ 
-    {
-      "id": 1,
-      "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-      "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+    final jsonString = '''
+    [{"id": 1, "title": "Mocked post", "body": "Mocked body post"}, {"id": 2, "title": "Mocked post 2", "body": "Mocked body post 2"}]
+    ''';
+
+    Uri _makeTestURL(int startIndex, int postLimit) {
+      return Uri.https(
+        'jsonplaceholder.typicode.com',
+        '/posts',
+        <String, String>{'_start': '$startIndex', '_limit': '$postLimit'},
+      );
     }
-    """;
 
-    test('testing mocks', () async {
+    test('testing httpClient', () async {
       final mockClient = MockClient();
-      final response = http.Response(stringResponse, 200);
-      final url = Uri.https('jsonplaceholder.typicode.com', '/posts');
 
-      final repository = PostRepository(client: mockClient, postLimit: 1);
+      when(mockClient.get(_makeTestURL(0, 1)))
+          .thenAnswer((_) async => http.Response(jsonString, 200));
 
-      final expexted = [
-        Post(id: 1, title: 'Mocked post', body: 'Mocked body post')
-      ];
+      expect(await fetchPost(mockClient), isA<List<Post>>());
+    });
 
-      when(mockClient.get(url))
-          .thenAnswer((realInvocation) async => Future.value(response));
-      when(repository.fetchPosts())
-          .thenAnswer((value) async => Future.value(expexted));
+    test('testing repository success', () async {
+      final mockClient = MockClient();
+      final startIndex = 0;
+      final postLimit = 1;
 
-      expect(await repository.fetchPosts(), isA<Post>());
+      final repository =
+          PostRepository(client: mockClient, postLimit: postLimit);
+
+      when(mockClient.get(_makeTestURL(startIndex, postLimit)))
+          .thenAnswer((_) async => http.Response(jsonString, 200));
+
+      expect(await repository.fetchPosts(), isA<List<Post>>());
+    });
+
+    test('testing repository failure', () async {
+      final mockClient = MockClient();
+      final startIndex = 0;
+      final postLimit = 1;
+      final repository =
+          PostRepository(client: mockClient, postLimit: postLimit);
+
+      when(mockClient.get(_makeTestURL(startIndex, postLimit)))
+          .thenAnswer((_) async => http.Response('Not found', 404));
+
+      expect(repository.fetchPosts(), throwsException);
+    });
+
+    test('test model parsing', () {
+      final posts = postFromJson(jsonString);
+      expect(posts.length, 2);
+      expect(posts[0].id, 1);
+      expect(posts[0].title, 'Mocked post');
+      expect(posts[0].body, 'Mocked body post');
+      expect(posts[1].id, 2);
+      expect(posts[1].title, 'Mocked post 2');
+      expect(posts[1].body, 'Mocked body post 2');
     });
   });
+}
+
+// just to test http client mock
+Future<List<Post>> fetchPost(http.Client client) async {
+  final response = await client.get(
+    Uri.https(
+      'jsonplaceholder.typicode.com',
+      '/posts',
+      <String, String>{'_start': '0', '_limit': '1'},
+    ),
+  );
+
+  if (response.statusCode == 200) {
+    return postFromJson(response.body);
+  }
+
+  throw Exception('error fetching posts');
 }
