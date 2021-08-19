@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login/authentication/authentication.dart';
 import 'package:user_repository/user_repository.dart';
 
+import 'splash/splash.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp(
       {Key? key,
