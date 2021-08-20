@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is LoginPasswordChanged) {
       yield _mapLoginPasswordChangedToState(event, state);
     } else if (event is LoginSubmitted) {
-      yield* _mapLoginSubmittedoState(event, state);
+      yield* _mapLoginSubmittedToState(event, state);
     }
   }
 
@@ -43,7 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         password: password, status: Formz.validate([password, state.username]));
   }
 
-  Stream<LoginState> _mapLoginSubmittedoState(
+  Stream<LoginState> _mapLoginSubmittedToState(
       LoginSubmitted event, LoginState state) async* {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
