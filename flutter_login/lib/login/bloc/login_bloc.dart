@@ -29,12 +29,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  @override
-  Future<void> close() {
-    _authenticationRepostiory.dispose();
-    return super.close();
-  }
-
   LoginState _mapLoginUsernameChangedToState(
       LoginUsernameChanged event, LoginState state) {
     final username = Username.dirt(event.username);
