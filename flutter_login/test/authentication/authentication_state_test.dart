@@ -6,7 +6,7 @@ import 'package:user_repository/user_repository.dart';
 // ignore: must_be_immutable
 class MockUser extends Mock implements User {}
 
-main(List<String> args) {
+void main() {
   group('AuthenticationState.unauthenticated', () {
     test('supports value comparison', () {
       expect(AuthenticationState.unauthenticated(),

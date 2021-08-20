@@ -2,7 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter_login/authentication/bloc/authentication_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-main(List<String> args) {
+void main() {
   group('AuthenticationStatusChanged', () {
     test('supports value comparison', () {
       expect(AuthenticationStatusChanged(AuthenticationStatus.authenticated),
