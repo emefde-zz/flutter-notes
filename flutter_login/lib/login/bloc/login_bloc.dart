@@ -31,7 +31,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginState _mapLoginUsernameChangedToState(
       LoginUsernameChanged event, LoginState state) {
-    final username = Username.dirt(event.username);
+    final username = Username.dirty(event.username);
     return state.copyWith(
         username: username, status: Formz.validate([state.password, username]));
   }
