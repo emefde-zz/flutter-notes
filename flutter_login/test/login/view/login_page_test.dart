@@ -28,8 +28,9 @@ main() {
             child: MaterialApp(
               home: Scaffold(body: LoginPage()),
             )));
+
+        expect(find.byType(LoginForm), findsOneWidget);
       },
     );
-    expect(find.byType(LoginForm), findsOneWidget);
   });
 }

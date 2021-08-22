@@ -5,13 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formz/formz.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:user_repository/user_repository.dart';
 
 import 'login_bloc_test.mocks.dart';
 
 @GenerateMocks([AuthenticationRepostiory])
 main() {
-  const user = User('123');
   late AuthenticationRepostiory authenticationRepostiory;
 
   setUp(() {
