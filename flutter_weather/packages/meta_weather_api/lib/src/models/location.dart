@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'location.g.dart';
+
 enum LocationType {
   @JsonValue('City')
   city,
@@ -24,8 +26,8 @@ class Location {
     required this.lattLong,
   });
 
-  // factory Location.fromJson(Map<String, dynamic> json) =>
-  //     _$LocationFromJson(json);
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
 
   final String title;
   final LocationType locationType;
