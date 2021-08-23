@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'location.g.dart';
+
+Location locationFromJson(String str) => Location.fromJson(json.decode(str));
 
 enum LocationType {
   @JsonValue('City')

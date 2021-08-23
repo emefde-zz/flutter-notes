@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'weather.g.dart';
+
+Weather weatherFromJson(String str) => Weather.fromJson(json.decode(str));
 
 enum WeatherState {
   @JsonValue('sn')
