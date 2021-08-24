@@ -30,7 +30,7 @@ enum WeatherState {
   unknown
 }
 
-extension WeatherStateX on WeatherState {
+extension WeatherStateAbbr on WeatherState {
   String? get abbr => _$WeatherStateEnumMap[this];
 }
 
