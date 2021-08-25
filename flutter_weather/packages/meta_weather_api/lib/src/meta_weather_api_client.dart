@@ -43,7 +43,7 @@ class MetaWeatherAPIClient {
     final locationJson = jsonDecode(locationResponse.body) as List;
     if (locationJson.isEmpty) throw LocationNotFoundFailure();
 
-    return locationFromJson(locationJson.first);
+    return Location.fromJson(locationJson.first);
   }
 
   /// Fetch [Weather] for given [locationId]
@@ -61,6 +61,6 @@ class MetaWeatherAPIClient {
 
     if (weatherJson.isEmpty) throw WeatherNotFoundFailure();
 
-    return weatherFromJson(weatherJson.first);
+    return Weather.fromJson(weatherJson.first);
   }
 }
