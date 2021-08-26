@@ -22,7 +22,8 @@ class WeatherNotFoundFailure implements Exception {}
 /// {@endtemplate}
 class MetaWeatherAPIClient {
   /// {@macro meta_weather_api_client}
-  const MetaWeatherAPIClient({required http.Client client}) : _client = client;
+  MetaWeatherAPIClient({http.Client? client})
+      : _client = client ?? http.Client();
   final http.Client _client;
 
   static const _baseURL = 'www.metaweather.com';

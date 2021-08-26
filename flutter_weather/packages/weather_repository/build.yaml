@@ -1,14 +1,6 @@
 targets:
   $default:
-    sources:
-      - $package$
-      - lib/$lib$
-      - lib/src/models/**.dart
-      - test/**.dart
     builders:
-      mockito|mockBuilder:
-        generate_for:
-          - test/**.dart
       json_serializable:
         options:
           field_rename: snake
