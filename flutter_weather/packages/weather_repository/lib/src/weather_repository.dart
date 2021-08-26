@@ -11,16 +11,12 @@ class WeatherRepository {
   final MetaWeatherAPIClient _metaWeatherAPIClient;
 
   Future<Weather> getWeather(String city) async {
-    try {
-      final location = await _metaWeatherAPIClient.locationSearch(city);
-      final weather = await _metaWeatherAPIClient.getWeather(location.woeid);
-      return Weather(
-          location: location.title,
-          temperature: weather.theTemp,
-          condition: weather.weatherStateAbbr.toCondition);
-    } catch (exception) {
-      throw exception;
-    }
+    final location = await _metaWeatherAPIClient.locationSearch(city);
+    final weather = await _metaWeatherAPIClient.getWeather(location.woeid);
+    return Weather(
+        location: location.title,
+        temperature: weather.theTemp,
+        condition: weather.weatherStateAbbr.toCondition);
   }
 }
 
