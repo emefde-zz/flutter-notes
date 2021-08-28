@@ -37,6 +37,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_test_ui: ^2.0.0
+  json_serializable: ^4.1.4
   mocktail: ^0.1.4
 
 # For information on the generic Dart part of this file, see the
