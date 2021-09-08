@@ -12,5 +12,5 @@ environment:
 dev_dependencies:
   pedantic: ^1.10.0
 dependencies: 
-  bloc: ^7.0.0
+  bloc: ^7.1.0
   

@@ -173,10 +173,73 @@ class CounterBloc extends Bloc<CounterEvent, int> {
 //   await bloc.close();
 // }
 
-void main(List<String> args) {
-  Bloc.observer = SimpleBlocObserver();
-  CounterBloc()
-    ..add(CounterEvent.increment)
-    ..add(CounterEvent.error)
-    ..close();
+// void main(List<String> args) {
+//   Bloc.observer = SimpleBlocObserver();
+//   CounterBloc()
+//     ..add(CounterEvent.increment)
+//     ..add(CounterEvent.error)
+//     ..close();
+// }
+
+// void main(List<String> args) {
+//   print('create iterator');
+//   final numbers = getNumbers(3);
+//   print('starting to iterate');
+//   for (var val in numbers) {
+//     print('$val');
+//   }
+//   print('end of main');
+// }
+
+// Iterable<int> getNumbers(int number) sync* {
+//   print('generator started');
+//   for (var i = 0; i < number; i++) {
+//     yield i;
+//   }
+//   print('generator ended');
+// }
+
+// void main() {
+//   print('create iterator');
+//   final numbers = getNumbersRecursive(3);
+//   print('starting to iterate...');
+//   for (var val in numbers) {
+//     print('$val');
+//   }
+//   print('end of main');
+// }
+
+// Iterable<int> getNumbersRecursive(int number) sync* {
+//   print('generator $number started');
+//   if (number > 0) {
+//     yield* getNumbersRecursive(number - 1);
+//   }
+//   yield number;
+//   print('generator $number ended');
+// }
+
+// Stream<int> numbersDownFrom(int n) async* {
+//   if (n > 2) {
+//     yield n;
+//     yield* numbersDownFrom(n - 1);
+//   }
+// }
+
+// void main() async {
+//   await for (int i in numbersDownFrom(5)) {
+//     print('$i');
+//   }
+// }
+
+void main() async {
+  for (var i in getRange(0, 5)) {
+    print('$i');
+  }
+}
+
+Iterable<int> getRange(int start, int finish) sync* {
+  if (start <= finish) {
+    yield start;
+    yield* getRange(start + 1, finish);
+  }
 }
