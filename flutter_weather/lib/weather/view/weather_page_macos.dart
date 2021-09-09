@@ -69,58 +69,8 @@ class _WeatherPageMacOSState extends State<WeatherPageMacOSView> {
               children: [
                 Column(
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              controller: _textEditingController,
-                              decoration: const InputDecoration(
-                                  labelText: 'City', hintText: 'Szczecin'),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          key: const Key('searchPage_search_iconButton'),
-                          icon: const Icon(Icons.search),
-                          onPressed: () =>
-                              context.read<WeatherCubit>().fetchWeather(_text),
-                        ),
-                      ],
-                    ),
-                    Center(
-                      child: BlocConsumer<WeatherCubit, WeatherState>(
-                        listener: (context, state) {
-                          if (state.status.isSuccess) {
-                            context
-                                .read<ThemeCubit>()
-                                .updateTheme(state.weather);
-                          }
-                        },
-                        builder: (context, state) {
-                          switch (state.status) {
-                            case WeatherStatus.initial:
-                              return const WeatherEmpty();
-                            case WeatherStatus.loading:
-                              return const WeatherLoading();
-                            case WeatherStatus.success:
-                              return WeatherPopulated(
-                                weather: state.weather,
-                                units: state.temperatureUnits,
-                                onRefresh: () {
-                                  return context
-                                      .read<WeatherCubit>()
-                                      .refreshWeather();
-                                },
-                              );
-                            case WeatherStatus.failure:
-                            default:
-                              return const WeatherError();
-                          }
-                        },
-                      ),
-                    ),
+                    _searchView(),
+                    WeatherPageMacOSBodyView(),
                   ],
                 ),
                 SettingsPage.widget(context.read<WeatherCubit>())
@@ -129,6 +79,68 @@ class _WeatherPageMacOSState extends State<WeatherPageMacOSView> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _searchView() {
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _textEditingController,
+              decoration: const InputDecoration(
+                  labelText: 'City', hintText: 'Szczecin'),
+            ),
+          ),
+        ),
+        IconButton(
+          key: const Key('searchPage_search_iconButton'),
+          icon: const Icon(Icons.search),
+          onPressed: () => context.read<WeatherCubit>().fetchWeather(_text),
+        ),
+      ],
+    );
+  }
+}
+
+class WeatherPageMacOSBodyView extends StatelessWidget {
+  const WeatherPageMacOSBodyView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Center(
+          child: BlocConsumer<WeatherCubit, WeatherState>(
+            listener: (context, state) {
+              if (state.status.isSuccess) {
+                context.read<ThemeCubit>().updateTheme(state.weather);
+              }
+            },
+            builder: (context, state) {
+              switch (state.status) {
+                case WeatherStatus.initial:
+                  return const WeatherEmpty();
+                case WeatherStatus.loading:
+                  return const WeatherLoading();
+                case WeatherStatus.success:
+                  return WeatherPopulated(
+                    weather: state.weather,
+                    units: state.temperatureUnits,
+                    onRefresh: () {
+                      return context.read<WeatherCubit>().refreshWeather();
+                    },
+                  );
+                case WeatherStatus.failure:
+                default:
+                  return const WeatherError();
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }
