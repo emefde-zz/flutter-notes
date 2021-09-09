@@ -4,6 +4,7 @@ import 'package:flutter_weather/theme/cubit/theme_cubit.dart';
 import 'package:flutter_weather/weather/weather.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_repository/weather_repository.dart';
+import 'dart:io';
 
 class WeatherApp extends StatelessWidget {
   const WeatherApp({Key? key, required WeatherRepository weatherRepository})
@@ -39,9 +40,13 @@ class WeatherAppView extends StatelessWidget {
               ),
             ),
           ),
-          home: WeatherPage(),
+          home: _getPlatformSpecificWidget(),
         );
       },
     );
   }
+}
+
+Widget _getPlatformSpecificWidget() {
+  return Platform.isMacOS ? WeatherPageMacOS() : WeatherPage();
 }
