@@ -231,15 +231,26 @@ class CounterBloc extends Bloc<CounterEvent, int> {
 //   }
 // }
 
-void main() async {
-  for (var i in getRange(0, 5)) {
-    print('$i');
-  }
+// void main() async {
+//   for (var i in getRange(0, 5)) {
+//     print('$i');
+//   }
+// }
+
+// Iterable<int> getRange(int start, int finish) sync* {
+//   if (start <= finish) {
+//     yield start;
+//     yield* getRange(start + 1, finish);
+//   }
+// }
+
+Future<int> getNumber() async {
+  return Future.delayed(Duration(seconds: 2), () {
+    return 100;
+  });
 }
 
-Iterable<int> getRange(int start, int finish) sync* {
-  if (start <= finish) {
-    yield start;
-    yield* getRange(start + 1, finish);
-  }
+void main() async {
+  final numer = await getNumber();
+  print(numer);
 }
