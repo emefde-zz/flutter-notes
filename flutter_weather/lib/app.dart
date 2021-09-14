@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_weather/theme/cubit/theme_cubit.dart';
@@ -49,5 +50,9 @@ class WeatherAppView extends StatelessWidget {
 }
 
 Widget _getPlatformSpecificWidget() {
+  if (kIsWeb) {
+    return WeatherPageMacOS();
+  }
+
   return Platform.isMacOS ? WeatherPageMacOS() : WeatherPage();
 }
